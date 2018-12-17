@@ -1,0 +1,68 @@
+
+logging:
+  level: INFO
+  appenders:
+    - type: console
+      threshold: ALL
+      timeZone: UTC
+      logFormat: "%d [%X{ApiName} - %thread] %-5level %c{15} - [%X{RequestId}] [attempt:%X{AttemptId}] [%X{loggerKey}] - %msg%n%rEx"
+  loggers:
+    com.olashare.matching.common.PerformanceLoggerInterceptor: DEBUG
+    com.olashare.matching.executor.MdcCallable: DEBUG
+    com.olashare.matching.executor.MdcRunnable: DEBUG
+
+
+environment: "local"
+
+
+server:
+  type: default
+  adminContextPath: /admin
+  applicationConnectors:
+    - port: 7070
+      type: http
+  adminConnectors:
+    - port: 8082
+      type: http
+
+database:
+  # the name of your JDBC driver
+  driverClass: com.mysql.jdbc.Driver
+
+  # the username
+  user: root
+
+  # the password
+  password:
+
+  # the JDBC URL
+  url: jdbc:mysql://localhost/olashare
+
+  properties:
+    charSet: UTF-8
+    autoReconnect: true
+
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
+
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+
+  # the timeout before a connection validation queries fail
+  #validationQueryTimeout: 3s
+
+  # the minimum number of connections to keep open
+  minSize: 8
+
+  # the maximum number of connections to keep open
+  maxSize: 32
+
+  # whether or not idle connections should be validated
+  checkConnectionWhileIdle: true
+  checkConnectionOnReturn: true
+
+  # the amount of time to sleep between runs of the idle connection validation, abandoned cleaner and idle pool resizing
+  evictionInterval: 10s
+
+  # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
+  minIdleTime: 1 minute
